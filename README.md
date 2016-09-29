@@ -13,6 +13,11 @@ Set the models you want to follow in creep-start.bash, with the corresponding sc
 
 Run rtmprec.bash in a directory to catch the files.
 
-Later run rtmpconvert.bash to convert these to playable videos.
+Later run rtmpconvert.bash in the same directory to convert these to playable videos.
 
 Run one script per user per model to prevent firefox from being difficult.  ie, user1, user2, user3, user4 to follow 4 models.
+
+
+sm-creep.bash = streamate.com creep script.
+mfc-creep.bash = myfreecams.com creep script.
+chat-creep.bash = chaturbate.com creep script.
