@@ -11,7 +11,7 @@
 ##Following in /etc/sudoers   ##
 ##$(whoami) ALL=(ALL) NOPASSWD: /usr/bin/ngrep, /usr/bin/timeout
 ################################
-##su - $(whoami) -c "screen -d -m -S modelname sm-creep.sh ModelName"
+##su - $(whoami) -c "screen -d -m -S modelname sm-creep.bash ModelName"
 ################################
 
 model="$1"
