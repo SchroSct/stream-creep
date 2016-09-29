@@ -19,5 +19,7 @@ Run one script per user per model to prevent firefox from being difficult.  ie, 
 
 
 sm-creep.bash = streamate.com creep script.
+
 mfc-creep.bash = myfreecams.com creep script.
+
 chat-creep.bash = chaturbate.com creep script.
