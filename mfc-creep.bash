@@ -6,7 +6,7 @@ dur="600"
 check(){
 echo "${model}"
 site="http://profiles.myfreecams.com/${model}"
-status=$(curl -s "$site" | grep -e "profileState" | sed -e 's/.*:\"//g' -e 's/\".*//g')
+status=$(curl -s "$site" | grep -e "profileState" | sed -e 's/.*:\"//g' -e 's/\".*//g' | grep -v object)
 while [[ "$status" == "Offline" ]]
 do
 	echo "${model} MyFreeCams $status (offline) $(date)"
@@ -14,7 +14,7 @@ do
 	let sleepy=45+$random
 	echo "sleeping $sleepy"
 	sleep $sleepy
-	status=$(curl -s "$site" | grep -e "profileState" | sed -e 's/.*:\"//g' -e 's/\".*//g')
+	status=$(curl -s "$site" | grep -e "profileState" | sed -e 's/.*:\"//g' -e 's/\".*//g' | grep -v object)
 done
 
 while [[ ! "$status" == "Online" ]]&&[[ "$status" != "Offline" ]]
@@ -23,7 +23,7 @@ do
 	let sleepy=$RANDOM%60
 	echo "sleeping $sleepy"
 	sleep $sleepy
-	status=$(curl -s "$site" | grep -e "profileState" | sed -e 's/.*:\"//g' -e 's/\".*//g')
+	status=$(curl -s "$site" | grep -e "profileState" | sed -e 's/.*:\"//g' -e 's/\".*//g' | grep -v object)
 done
 
 while [[ "$status" == "Online" ]]
@@ -34,8 +34,9 @@ do
 	sleep 7
 	xvfbpid="$(pgrep -o -P "$ff")"
 	echo "$xvfbpid"
-	sleep "$dur"
-	while pgrep -f "firefox -no-remote -private http://www.myfreecams.com/#${model}" > /dev/null
+        let sleepy=$RANDOM%60
+	SECONDS=0; while [[ "$status" == "Online" ]] && (( "$SECONDS" < "$dur" )) ; do echo "$model $status" ; sleep "$sleepy" ; status=$(curl -s "$site" | grep -e profileState | sed -e 's/.*:\"//g' -e 's/\".*//g' | grep -v object) ; let sleepy=$RANDOM%60 ; done
+        while pgrep -f "firefox -no-remote -private http://www.myfreecams.com/#${model}" > /dev/null
 	do
 		kill -- $(pgrep -f -o "firefox -no-remote -private http://www.myfreecams.com/#${model}")
 	done
@@ -50,7 +51,7 @@ do
         rm -rf /tmp/xvfb*
         sleep 2
 	echo "Firefox Killed"
-	status=$(curl -s "$site" | grep -e "profileState" | sed -e 's/.*:\"//g' -e 's/\".*//g')
+	status=$(curl -s "$site" | grep -e "profileState" | sed -e 's/.*:\"//g' -e 's/\".*//g' | grep -v object)
 done
 }
 
